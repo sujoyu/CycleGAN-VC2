@@ -1,0 +1,7 @@
+cache
+converted_sound
+data
+model_checkpoint
+.idea
+__pycache__
+log_store_non_sigmoid.txt

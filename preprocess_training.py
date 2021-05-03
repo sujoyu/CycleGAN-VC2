@@ -12,6 +12,7 @@ import pickle
 # Custom Classes
 import preprocess
 
+# --resume_training_at ./model_checkpoint/_CycleGAN_CheckPoint
 
 def save_pickle(variable, fileName):
     with open(fileName, 'wb') as f:
@@ -22,10 +23,9 @@ def load_pickle_file(fileName):
     with open(fileName, 'rb') as f:
         return pickle.load(f)
 
-
 def preprocess_for_training(train_A_dir, train_B_dir, cache_folder):
     num_mcep = 36
-    sampling_rate = 16000
+    sampling_rate = 22050
     frame_period = 5.0
     n_frames = 128
 

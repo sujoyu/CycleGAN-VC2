@@ -114,7 +114,8 @@ def wav_padding(wav, sr, frame_period, multiple=4):
 
 def pitch_conversion(f0, mean_log_src, std_log_src, mean_log_target, std_log_target):
     # Logarithm Gaussian Normalization for Pitch Conversions
-    f0_converted = np.exp((np.log(f0) - mean_log_src) /
+    f0_tmp = np.where(f0 > 1.0e-10, f0, 1.0e-10)
+    f0_converted = np.exp((np.log(f0_tmp) - mean_log_src) /
                           std_log_src * std_log_target + mean_log_target)
     return f0_converted
 
