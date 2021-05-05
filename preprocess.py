@@ -11,6 +11,7 @@ import pyworld
 from pprint import pprint
 import librosa.display
 import time
+from tqdm import tqdm
 
 
 def load_wavs(wav_dir, sr):
@@ -59,16 +60,18 @@ def world_encode_data(wave, fs, frame_period=5.0, coded_dim=24):
     sps = list()
     aps = list()
     coded_sps = list()
-    for wav in wave:
-        f0, timeaxis, sp, ap = world_decompose(wav=wav,
-                                               fs=fs,
-                                               frame_period=frame_period)
-        coded_sp = world_encode_spectral_envelop(sp=sp, fs=fs, dim=coded_dim)
-        f0s.append(f0)
-        timeaxes.append(timeaxis)
-        sps.append(sp)
-        aps.append(ap)
-        coded_sps.append(coded_sp)
+    with tqdm(total=len(wave)) as pbar:
+        for wav in wave:
+            f0, timeaxis, sp, ap = world_decompose(wav=wav,
+                                                fs=fs,
+                                                frame_period=frame_period)
+            coded_sp = world_encode_spectral_envelop(sp=sp, fs=fs, dim=coded_dim)
+            f0s.append(f0)
+            timeaxes.append(timeaxis)
+            sps.append(sp)
+            aps.append(ap)
+            coded_sps.append(coded_sp)
+            pbar.update(1)
     return f0s, timeaxes, sps, aps, coded_sps
 
 
