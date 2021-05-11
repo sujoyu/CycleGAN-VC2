@@ -16,7 +16,7 @@ from trainingDataset import trainingDataset
 from model_tf import Generator, Discriminator
 from tqdm import tqdm
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 class CycleGANTraining(object):
@@ -32,7 +32,7 @@ class CycleGANTraining(object):
                  output_B_dir,
                  restart_training_at=None):
         self.start_epoch = 0
-        self.num_epochs = 61  # 5000
+        self.num_epochs = 1000  # 5000
         self.mini_batch_size = 1  # 1
         self.dataset_A = self.loadPickleFile(coded_sps_A_norm)
         self.dataset_B = self.loadPickleFile(coded_sps_B_norm)
@@ -252,7 +252,7 @@ class CycleGANTraining(object):
 
                 self.discriminator_optimizer.step()
 
-                if (i + 1) % 2 == 0:
+                if (i + 1) % 10 == 0:
                     pbar.set_description(
                         "Iter:{} Generator Loss:{:.4f} Discrimator Loss:{:.4f} GA2B:{:.4f} GB2A:{:.4f} G_id:{:.4f} G_cyc:{:.4f} D_A:{:.4f} D_B:{:.4f}".format(
                             num_iterations,
@@ -294,7 +294,7 @@ class CycleGANTraining(object):
                     self.modelCheckpoint + '_CycleGAN_CheckPoint'))
                 print("Model Saved!")
 
-            if epoch % 5 == 0 and epoch != 0:
+            if epoch % 20 == 0 and epoch != 0:
                 # Validation Set
                 validation_start_time = time.time()
                 self.validation_for_A_dir()
